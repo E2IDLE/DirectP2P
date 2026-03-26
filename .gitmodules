@@ -1,0 +1,15 @@
+[submodule "Client_Agent"]
+	path = Client_Agent
+	url = https://github.com/E2IDLE/Client_Agent.git
+[submodule "Frontend"]
+	path = Frontend
+	url = https://github.com/E2IDLE/Frontend.git
+[submodule "Coturn"]
+	path = Coturn
+	url = https://github.com/E2IDLE/Coturn.git
+[submodule "Nginx"]
+	path = Nginx
+	url = https://github.com/E2IDLE/Nginx.git
+[submodule "API_Server"]
+	path = API_Server
+	url = https://github.com/E2IDLE/API_Server.git
