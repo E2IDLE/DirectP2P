@@ -11,6 +11,11 @@ jobs:
   submodule_update_received:
     runs-on: ubuntu-latest
     steps:
+      - name: Set branch
+        run: |
+          BRANCH="${{ github.event.client_payload.branch }}"
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          echo "BRANCH=$BRANCH"
       - name: Checkout code
         uses: actions/checkout@v6
         with:
@@ -19,14 +24,6 @@ jobs:
       - name: Sync submodule branch
         run: |
           git submodule update --init --recursive
-
-          if [ "${GITHUB_REF_NAME}" = "master" ]; then
-            BRANCH=master
-          elif [ "${GITHUB_REF_NAME}" = "release" ]; then
-            BRANCH=release
-          else
-            BRANCH=develop
-          fi
 
           git submodule foreach "
             git fetch origin
