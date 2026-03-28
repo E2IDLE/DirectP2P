@@ -1,0 +1,48 @@
+name: On submodule update
+
+on:
+  repository_dispatch:
+    types: [ submodule_updated ]
+
+jobs:
+  submodule_update_received:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Sync submodule branch
+        run: |
+          git submodule update --init --recursive
+
+          if [ "${GITHUB_REF_NAME}" = "master" ]; then
+            BRANCH=master
+          elif [ "${GITHUB_REF_NAME}" = "release" ]; then
+            BRANCH=release
+          else
+            BRANCH=develop
+          fi
+
+          git submodule foreach "
+            git fetch origin
+            git checkout $BRANCH
+            git pull origin $BRANCH
+          "
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+
+          git add .
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "chore: update submodules to latest ($GITHUB_REF_NAME)"
+      - name: Push changes
+        run: |
+          git push origin HEAD:${GITHUB_REF_NAME}
