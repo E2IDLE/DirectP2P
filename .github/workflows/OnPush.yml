@@ -1,0 +1,12 @@
+on:
+  repository_dispatch:
+    types: [ submodule_updated ]
+
+jobs:
+  submodule_updated_received:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Print log
+        run: echo "submodule_updated_received"
