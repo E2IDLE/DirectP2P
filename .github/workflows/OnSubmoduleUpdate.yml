@@ -41,7 +41,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore: update submodules to latest ($GITHUB_REF_NAME)"
+          git commit -m "chore: update submodules to latest ($BRANCH)"
       - name: Push changes
         run: |
-          git push origin HEAD:${GITHUB_REF_NAME}
+          git push origin HEAD:${BRANCH}
