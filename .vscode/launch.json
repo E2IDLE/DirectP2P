@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run API Server",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceFolder}/build/api_server/main.exe",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Run Client Agent",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceFolder}/build/client_agent/main.exe",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Run Frontend Dev",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/Frontend",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ],
+            "console": "integratedTerminal"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run All",
+            "configurations": [
+                "Run API Server",
+                "Run Client Agent",
+                "Run Frontend Dev"
+            ],
+            "preLaunchTask": "build"
+        }
+    ]
+}

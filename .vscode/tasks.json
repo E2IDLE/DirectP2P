@@ -1,0 +1,99 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "install",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "install"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Frontend"
+      }
+    },
+    {
+      "label": "frontend-build",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "build"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Frontend"
+      }
+    },
+    {
+      "label": "copy-frontend",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "New-Item -ItemType Directory -Force -Path \"${workspaceFolder}/build\"; Copy-Item -Path \"${workspaceFolder}/Frontend/dist/*\" -Destination \"${workspaceFolder}/build/front\" -Recurse -Force"
+      ]
+    },
+    {
+      "label": "client-build",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "build",
+        "-o",
+        "build/",
+        "cmd/client/main.go"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Client_Agent"
+      }
+    },
+    {
+    "label": "copy-client",
+    "type": "shell",
+    "command": "powershell",
+    "args": [
+        "-Command",
+        "New-Item -ItemType Directory -Force -Path \"${workspaceFolder}/build/client_agent\"; Copy-Item -Path \"${workspaceFolder}/Client_Agent/build/*\" -Destination \"${workspaceFolder}/build/client_agent/\" -Recurse -Force"
+    ]
+    },
+    {
+      "label": "api-build",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "build",
+        "-o",
+        "build/",
+        "cmd/server/main.go"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/API_Server"
+      }
+    },
+    {
+        "label": "copy-api",
+        "type": "shell",
+        "command": "powershell",
+        "args": [
+            "-Command",
+            "New-Item -ItemType Directory -Force -Path \"${workspaceFolder}/build/api_server\"; Copy-Item -Path \"${workspaceFolder}/API_Server/build/*\" -Destination \"${workspaceFolder}/build/api_server/\" -Recurse -Force"
+        ]
+    },
+    {
+      "label": "build",
+      "dependsOn": [
+        "install",
+        "frontend-build",
+        "copy-frontend",
+        "client-build",
+        "copy-client",
+        "api-build",
+        "copy-api"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": [
+        "$tsc"
+      ]
+    }
+  ]
+}
