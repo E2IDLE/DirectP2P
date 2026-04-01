@@ -2,6 +2,15 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "update",
+      "type": "shell",
+      "command": "git",
+      "args": [
+        "submodule",
+        "update"
+      ]
+    },
+    {
       "label": "install",
       "type": "shell",
       "command": "npm",
@@ -82,6 +91,7 @@
     {
       "label": "build",
       "dependsOn": [
+        "update",
         "install",
         "frontend-build",
         "copy-frontend",
